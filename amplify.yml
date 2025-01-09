@@ -4,6 +4,8 @@ backend:
     build:
       commands:
         - npm install -g pnpm
+        - "# Execute Amplify CLI with the helper script"
+        - amplifyPush --simple
 frontend:
   phases:
     preBuild:

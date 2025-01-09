@@ -14,6 +14,9 @@
     "categories": {
       "auth": {
         "amplifyappe0d3e209": {}
+      },
+      "storage": {
+        "s3amplifyappstorage46576f43": {}
       }
     }
   }
