@@ -244,7 +244,7 @@
     "@types/json-schema" "^7.0.15"
     rxjs "^7.8.1"
 
-"@aws-amplify/datastore@5.0.67":
+"@aws-amplify/datastore@^5.0.67", "@aws-amplify/datastore@5.0.67":
   version "5.0.67"
   resolved "https://registry.npmjs.org/@aws-amplify/datastore/-/datastore-5.0.67.tgz"
   integrity sha512-2cCquK+Xh2E5wKsM+2+vNzrqq/LLKo8E8r2JPiqgX2zcKuUNzZh0Q/V1wf7wb2X+qVX5vMGtky2rwGpTNRzX+A==
