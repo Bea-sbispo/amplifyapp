@@ -11,6 +11,9 @@ importers:
       '@aws-amplify/backend-cli':
         specifier: ^1.4.6
         version: 1.4.6(@aws-sdk/client-sso-oidc@3.621.0(@aws-sdk/client-sts@3.621.0))(@aws-sdk/client-sts@3.621.0)(@aws-sdk/types@3.609.0)(aws-cdk-lib@2.174.1(constructs@10.4.2))(aws-cdk@2.174.1)(constructs@10.4.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@4.9.5)
+      '@aws-amplify/datastore':
+        specifier: ^5.0.67
+        version: 5.0.67(@aws-amplify/core@6.9.0)
       '@aws-amplify/ui-react':
         specifier: ^6.8.1
         version: 6.8.1(@aws-amplify/core@6.9.0)(@types/react@18.3.18)(aws-amplify@6.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(xstate@4.38.3)
