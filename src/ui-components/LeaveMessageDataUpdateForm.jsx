@@ -9,11 +9,13 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createLeaveMessageData } from "../graphql/mutations";
+import { getLeaveMessageData } from "../graphql/queries";
+import { updateLeaveMessageData } from "../graphql/mutations";
 const client = generateClient();
-export default function LeaveMessageDataCreateForm(props) {
+export default function LeaveMessageDataUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    leaveMessageData: leaveMessageDataModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -28,9 +30,30 @@ export default function LeaveMessageDataCreateForm(props) {
   const [Field0, setField0] = React.useState(initialValues.Field0);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setField0(initialValues.Field0);
+    const cleanValues = leaveMessageDataRecord
+      ? { ...initialValues, ...leaveMessageDataRecord }
+      : initialValues;
+    setField0(cleanValues.Field0);
     setErrors({});
   };
+  const [leaveMessageDataRecord, setLeaveMessageDataRecord] = React.useState(
+    leaveMessageDataModelProp
+  );
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await client.graphql({
+              query: getLeaveMessageData.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getLeaveMessageData
+        : leaveMessageDataModelProp;
+      setLeaveMessageDataRecord(record);
+    };
+    queryData();
+  }, [idProp, leaveMessageDataModelProp]);
+  React.useEffect(resetStateValues, [leaveMessageDataRecord]);
   const validations = {
     Field0: [],
   };
@@ -60,7 +83,7 @@ export default function LeaveMessageDataCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          Field0,
+          Field0: Field0 ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -91,18 +114,16 @@ export default function LeaveMessageDataCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createLeaveMessageData.replaceAll("__typename", ""),
+            query: updateLeaveMessageData.replaceAll("__typename", ""),
             variables: {
               input: {
+                id: leaveMessageDataRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -111,7 +132,7 @@ export default function LeaveMessageDataCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "LeaveMessageDataCreateForm")}
+      {...getOverrideProps(overrides, "LeaveMessageDataUpdateForm")}
       {...rest}
     >
       <TextField
@@ -143,13 +164,14 @@ export default function LeaveMessageDataCreateForm(props) {
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || leaveMessageDataModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -159,7 +181,10 @@ export default function LeaveMessageDataCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || leaveMessageDataModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

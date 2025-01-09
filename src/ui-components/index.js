@@ -20,6 +20,7 @@ export { default as HeroLayout2 } from "./HeroLayout2";
 export { default as ItemCard } from "./ItemCard";
 export { default as LeaveMessage } from "./LeaveMessage";
 export { default as LeaveMessageDataCreateForm } from "./LeaveMessageDataCreateForm";
+export { default as LeaveMessageDataUpdateForm } from "./LeaveMessageDataUpdateForm";
 export { default as Logo } from "./Logo";
 export { default as LogoWithText } from "./LogoWithText";
 export { default as MarketingFooter } from "./MarketingFooter";
